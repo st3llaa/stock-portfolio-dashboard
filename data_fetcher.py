@@ -9,3 +9,6 @@ def get_stock_data(tickers, period='1y'):
     if isinstance(data, pd.Series):  # Only one ticker
         data = data.to_frame()
     return data
+
+sp500 = yf.download('^GSPC', period='1y')['Close']
+sp_returns = sp500.pct_change().dropna()
