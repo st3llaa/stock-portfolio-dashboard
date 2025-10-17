@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import yfinance as yf 
-from data_fetcher import get_stock_data, get_benchmark_data
+import time
+from data_fetcher import get_stock_data, get_benchmark_data, get_rsi, get_macd, get_bollinger_bands
 from portfolio_analysis import calculate_portfolio_returns, calculate_sharpe_ratio, moving_average, calculate_beta
 
 st.set_page_config(page_title="Stock Portfolio Dashboard", layout="wide")
@@ -22,6 +23,7 @@ if st.button("Analyze Portfolio"):
 
     st.write("Fetching stock data...")
     prices = get_stock_data(tickers)
+    symbol = "AAPL"
 
     st.write("Calculating metrics...")
     portfolio_returns = calculate_portfolio_returns(prices, weights)
@@ -46,3 +48,22 @@ if st.button("Analyze Portfolio"):
 
     st.subheader("Moving Averages (20-day)")
     st.line_chart(moving_average(prices))
+
+    # Technical Indicators
+    st.subheader(f"RSI for {symbol}")
+    rsi = get_rsi(symbol)
+    time.sleep(12) # Handle API rate limits
+    st.line_chart(rsi)
+    st.subheader(f"MACD for {symbol}")
+    time.sleep(12) # Handle API rate limits
+    macd = get_macd(symbol)
+    st.line_chart(macd[['MACD', 'MACD_Signal']])
+    st.subheader(f"Bollinger Bands for {symbol}")
+    time.sleep(12) # Handle API rate limits
+    bb = get_bollinger_bands(symbol)
+
+    st.line_chart(bb)
+
+    st.write("RSI Data Preview:", rsi.head())
+    st.write("MACD Data Preview:", macd.head())
+    st.write("BB Data Preview:", bb.head()) 
