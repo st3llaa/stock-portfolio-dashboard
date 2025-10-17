@@ -10,5 +10,6 @@ def get_stock_data(tickers, period='1y'):
         data = data.to_frame()
     return data
 
-sp500 = yf.download('^GSPC', period='1y')['Close']
-sp_returns = sp500.pct_change().dropna()
+def get_benchmark_data(symbol="SPY", start=None, end=None):
+    benchmark = yf.download(symbol, start=start, end=end)["Close"]
+    return benchmark

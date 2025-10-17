@@ -2,29 +2,16 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import yfinance as yf 
-from data_fetcher import get_stock_data
-from data_fetcher import get_benchmark_data
-from portfolio_analysis import calculate_portfolio_returns, calculate_sharpe_ratio, moving_average
-from portfolio_analysis import calculate_beta
+from data_fetcher import get_stock_data, get_benchmark_data
+from portfolio_analysis import calculate_portfolio_returns, calculate_sharpe_ratio, moving_average, calculate_beta
 
 st.set_page_config(page_title="Stock Portfolio Dashboard", layout="wide")
 
-st.title("📈 Stock Portfolio Analyzer")
+st.title("Stock Portfolio Analyzer 📈 ")
 
 tickers = st.text_input("Enter stock tickers (comma-separated):", "AAPL, MSFT, TSLA")
 weights_input = st.text_input("Enter portfolio weights (comma-separated):", "0.4, 0.4, 0.2")
 #st.download_button("Download CSV", portfolio_returns.to_csv(), "portfolio.csv")
-
-
-# Compute benchmark daily returns
-benchmark_returns = benchmark.pct_change().dropna()
-# Align portfolio and benchmark returns
-aligned = pd.concat([portfolio_returns, benchmark_returns], axis=1).dropna()
-aligned.columns = ["Portfolio", "SPY"]
-# Covariance between portfolio and SPY, and variance of SPY
-cov = aligned["Portfolio"].cov(aligned["SPY"])
-var = aligned["SPY"].var()
-beta = cov / var
 
 
 if st.button("Analyze Portfolio"):
